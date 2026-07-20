@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#7fe7f5" />
+    <title>Miwatasi</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="phone-shell" aria-label="Miwatasi demo app">
+      <section class="login-view" id="loginView" aria-labelledby="loginTitle">
+        <div class="key-visual" aria-hidden="true">
+          <span class="cloud cloud-one"></span
+          ><span class="cloud cloud-two"></span>
+          <span class="hill hill-back"></span><span class="cliff"></span
+          ><span class="grass"></span><span class="seal">◔ᴥ◔</span>
+        </div>
+        <div class="login-card glass-card">
+          <p class="eyebrow">Miwatasi</p>
+          <h1 id="loginTitle">チームの経験と、<br />これからをみわたそう。</h1>
+          <p class="lead">
+            試作用の8人チームで、ふりかえり・チームマップ・プロフィールを確認できます。
+          </p>
+          <label class="field-label" for="memberSelect">自分として入る</label>
+          <select id="memberSelect" class="select-field"></select>
+          <button class="primary-button wide" id="startButton" type="button">
+            はじめる
+          </button>
+        </div>
+      </section>
+
+      <section class="app-view is-hidden" id="appView">
+        <header class="app-header glass-card">
+          <div>
+            <p class="eyebrow" id="roleLabel">Miwatasiプロダクトチーム</p>
+            <h2 id="screenTitle">ホーム</h2>
+          </div>
+          <button
+            class="avatar-button"
+            id="meButton"
+            type="button"
+            aria-label="自分のプロフィールを開く"
+          ></button>
+        </header>
+
+        <section
+          class="screen active"
+          id="homeScreen"
+          aria-labelledby="homeTitle"
+        >
+          <article class="hero-card glass-card compact">
+            <div class="mini-sky" aria-hidden="true">
+              <span class="mini-seal">◔ᴥ◔</span>
+            </div>
+            <p class="eyebrow">Overview</p>
+            <h1 id="homeTitle">ふりかえりで、<br />アサインを見える化。</h1>
+            <p class="lead">8人の経験、直近5案件、伸びたスキルを見渡せます。</p>
+          </article>
+          <div class="project-strip" id="projectStrip"></div>
+          <section class="glass-card team-state-card">
+            <p class="eyebrow">Team condition</p>
+            <h3>チームの状態</h3>
+            <div class="state-grid" id="teamState"></div>
+          </section>
+        </section>
+
+        <section class="screen" id="mapScreen" aria-labelledby="mapTitle">
+          <div class="section-heading">
+            <p class="eyebrow">Team map</p>
+            <h2 id="mapTitle">チームの見晴らし</h2>
+          </div>
+          <div class="axis-switch" id="axisSwitch"></div>
+          <div
+            class="team-map glass-card"
+            id="teamMap"
+            role="img"
+            aria-label="経験の広さと挑戦意欲で見たチームマップ"
+          >
+            <span class="axis-label y high">挑戦意欲 高</span
+            ><span class="axis-label y low">挑戦意欲 低</span>
+            <span class="axis-label x low">経験 浅い</span
+            ><span class="axis-label x high">経験 広い</span>
+            <div class="map-grid"></div>
+          </div>
+        </section>
+
+        <section
+          class="screen"
+          id="reflectScreen"
+          aria-labelledby="reflectTitle"
+        >
+          <div class="section-heading">
+            <p class="eyebrow">1 minute</p>
+            <h2 id="reflectTitle">案件ふりかえり</h2>
+          </div>
+          <form class="reflection-form glass-card" id="reflectionForm">
+            <label class="field-label" for="projectSelect">案件</label>
+            <select id="projectSelect" class="select-field"></select>
+            <label class="field-label" for="usedSkill1">今回使ったスキル</label>
+            <div class="select-row" id="usedSkillFields"></div>
+            <label class="field-label" for="grownSkill1"
+              >今回伸びたスキル</label
+            >
+            <div class="select-row" id="grownSkillFields"></div>
+            <label class="field-label" for="firstExperience1"
+              >初めて経験したこと</label
+            >
+            <div class="select-row" id="firstExperienceFields"></div>
+            <label class="field-label" for="difficultNote"
+              >難しかったこと</label
+            >
+            <textarea
+              id="difficultNote"
+              class="text-field"
+              rows="3"
+              placeholder="例: 要件の優先順位を整理するのが難しかった"
+            ></textarea>
+            <label class="field-label" for="reflectionNote">ひとことメモ</label>
+            <textarea
+              id="reflectionNote"
+              class="text-field"
+              rows="3"
+              placeholder="例: 次は企画段階から関わってみたい"
+            ></textarea>
+            <button class="primary-button wide" type="submit">
+              ふりかえりを保存
+            </button>
+            <p class="form-message" id="formMessage" role="status"></p>
+          </form>
+        </section>
+
+        <section
+          class="screen"
+          id="membersScreen"
+          aria-labelledby="membersTitle"
+        >
+          <div class="section-heading">
+            <p class="eyebrow">Members</p>
+            <h2 id="membersTitle">メンバー</h2>
+          </div>
+          <form
+            class="filter-panel glass-card"
+            id="filterForm"
+            aria-label="メンバーの絞り込み"
+          >
+            <label class="field-label" for="filterStrength">得意分野</label>
+            <select id="filterStrength" class="select-field"></select>
+            <label class="field-label" for="filterInterest">興味分野</label>
+            <select id="filterInterest" class="select-field"></select>
+            <label class="field-label" for="filterCapacity">現在の余力</label>
+            <select id="filterCapacity" class="select-field"></select>
+            <label class="field-label" for="filterGrowth"
+              >今後伸ばしたい分野</label
+            >
+            <select id="filterGrowth" class="select-field"></select>
+            <label class="field-label" for="filterUpdated">最終更新日</label>
+            <select id="filterUpdated" class="select-field"></select>
+          </form>
+          <div class="member-list" id="memberList"></div>
+        </section>
+
+        <nav class="bottom-nav glass-card" aria-label="主要メニュー">
+          <button class="nav-item active" data-screen="home" type="button">
+            ⌂<span>ホーム</span>
+          </button>
+          <button class="nav-item" data-screen="map" type="button">
+            ◎<span>マップ</span>
+          </button>
+          <button class="nav-item" data-screen="reflect" type="button">
+            ＋<span>ふりかえり</span>
+          </button>
+          <button class="nav-item" data-screen="members" type="button">
+            ◌<span>メンバー</span>
+          </button>
+        </nav>
+      </section>
+    </main>
+
+    <dialog
+      class="profile-sheet"
+      id="profileSheet"
+      aria-labelledby="profileName"
+    >
+      <button
+        class="close-button"
+        id="closeProfile"
+        type="button"
+        aria-label="閉じる"
+      >
+        ×
+      </button>
+      <div id="profileContent"></div>
+    </dialog>
+
+    <dialog class="profile-sheet" id="editSheet" aria-labelledby="editTitle">
+      <button
+        class="close-button"
+        id="closeEdit"
+        type="button"
+        aria-label="閉じる"
+      >
+        ×
+      </button>
+      <form id="editForm" class="edit-form">
+        <h2 id="editTitle">プロフィール更新</h2>
+        <label class="field-label" for="editHeader">ヘッダー文言</label>
+        <input id="editHeader" class="select-field" type="text" />
+        <label class="field-label" for="editIcon">アイコン文字</label>
+        <input id="editIcon" class="select-field" type="text" maxlength="2" />
+        <label class="field-label" for="editAvatarImage"
+          >丸アイコン画像URL</label
+        >
+        <input
+          id="editAvatarImage"
+          class="select-field"
+          type="url"
+          placeholder="https://example.com/avatar.png"
+        />
+        <label class="field-label" for="editHeaderImage">ヘッダー画像URL</label>
+        <input
+          id="editHeaderImage"
+          class="select-field"
+          type="url"
+          placeholder="https://example.com/header.png"
+        />
+        <label class="field-label" for="editCapacity">現在の余力</label>
+        <select id="editCapacity" class="select-field"></select>
+        <label class="field-label" for="editNext">次にやりたいこと</label>
+        <textarea id="editNext" class="text-field" rows="3"></textarea>
+        <button class="primary-button wide" type="submit">更新する</button>
+        <p class="form-message" id="editMessage" role="status"></p>
+      </form>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
