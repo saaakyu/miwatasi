@@ -12,6 +12,8 @@ const members = [
     name: "山田 花子",
     role: "部長",
     icon: "花",
+    avatarImage: "",
+    headerImage: "",
     header: "経験を次の提案につなげる",
     note: "チーム全体の経験バランスを見たい。",
     strengths: ["情報設計", "営業資料", "プレゼンテーション"],
@@ -31,6 +33,8 @@ const members = [
     name: "佐藤 蒼太",
     role: "チームリーダー",
     icon: "蒼",
+    avatarImage: "",
+    headerImage: "",
     header: "アサイン理由を説明しやすくしたい",
     note: "要件定義と進行管理が得意。",
     strengths: ["要件定義", "進行管理", "レビュー"],
@@ -50,6 +54,8 @@ const members = [
     name: "鈴木 美奈",
     role: "チームリーダー補佐",
     icon: "美",
+    avatarImage: "",
+    headerImage: "",
     header: "挑戦を近くで支える",
     note: "設計と伴走支援が強み。",
     strengths: ["設計", "実装", "伴走支援"],
@@ -69,6 +75,8 @@ const members = [
     name: "田中 蓮",
     role: "メンバー",
     icon: "蓮",
+    avatarImage: "",
+    headerImage: "",
     header: "UI実装から要件整理へ",
     note: "新しい技術にも挑戦したい。",
     strengths: ["フロントエンド", "UI実装"],
@@ -88,6 +96,8 @@ const members = [
     name: "伊藤 結衣",
     role: "メンバー",
     icon: "結",
+    avatarImage: "",
+    headerImage: "",
     header: "ユーザーに近い仕事を増やしたい",
     note: "QAと仕様確認が得意。",
     strengths: ["QA", "仕様確認", "ドキュメント"],
@@ -107,6 +117,8 @@ const members = [
     name: "中村 大和",
     role: "メンバー",
     icon: "大",
+    avatarImage: "",
+    headerImage: "",
     header: "安定して実装を進めたい",
     note: "バックエンドとAPIが強み。",
     strengths: ["バックエンド", "API", "テスト"],
@@ -126,6 +138,8 @@ const members = [
     name: "小林 陽菜",
     role: "メンバー",
     icon: "陽",
+    avatarImage: "",
+    headerImage: "",
     header: "少しずつリードへ",
     note: "デザイン連携とUI改善が得意。",
     strengths: ["デザイン連携", "UI改善", "調整"],
@@ -145,6 +159,8 @@ const members = [
     name: "高橋 海斗",
     role: "メンバー",
     icon: "海",
+    avatarImage: "",
+    headerImage: "",
     header: "まずは基礎固め",
     note: "実装補助、テスト、調査を担当。",
     strengths: ["実装補助", "テスト", "調査"],
@@ -227,6 +243,18 @@ const filterIds = [
 
 function initials(member) {
   return member.icon || member.name.slice(0, 1);
+}
+function avatarMarkup(member, size = "") {
+  const imageStyle = member.avatarImage
+    ? `background-image:url('${member.avatarImage}')`
+    : "";
+  const imageClass = member.avatarImage ? " has-image" : "";
+  return `<span class="member-avatar ${size}${imageClass}" style="--dot:${member.color};${imageStyle}">${member.avatarImage ? "" : initials(member)}</span>`;
+}
+function headerStyle(member) {
+  return member.headerImage
+    ? `style="--dot:${member.color};background-image:linear-gradient(180deg,rgba(23,66,78,.15),rgba(23,66,78,.45)),url('${member.headerImage}')"`
+    : `style="--dot:${member.color}"`;
 }
 function unique(values) {
   return [...new Set(values.flat())].sort();
@@ -373,20 +401,23 @@ function renderMembers() {
     list
       .map(
         (m) => `
-    <article class="member-card" style="--dot:${m.color}">
+    <article class="member-card compact-member" style="--dot:${m.color}">
       <button type="button" class="member-open" data-member="${m.id}">
-        <span class="member-avatar">${initials(m)}</span>
-        <span><strong>${m.name}</strong><em>${m.role}・最終更新 ${m.updated}</em></span>
+        ${avatarMarkup(m)}
+        <span><strong>${m.name}</strong><em>${m.role}</em></span>
       </button>
-      ${memberSummary(m)}
-      <div class="tags">${[...m.strengths, ...m.growth, m.capacity].map((tag) => `<i>${tag}</i>`).join("")}</div>
+      <dl class="mini-profile">
+        <div><dt>余力</dt><dd>${m.capacity}</dd></div>
+        <div><dt>更新</dt><dd>${m.updated}</dd></div>
+      </dl>
+      <button class="secondary-button wide member-detail" data-member="${m.id}" type="button">個別プロフィールを見る</button>
     </article>
   `,
       )
       .join("") ||
     '<p class="empty-message">条件に合うメンバーがいません。</p>';
   document
-    .querySelectorAll(".member-open")
+    .querySelectorAll(".member-open, .member-detail")
     .forEach((button) =>
       button.addEventListener("click", () =>
         openProfile(members.find((m) => m.id === button.dataset.member)),
@@ -394,20 +425,32 @@ function renderMembers() {
     );
 }
 
-function renderSkills() {
-  const tags = unique(members.map((m) => [...m.growth, ...m.technical]));
-  $("#skillChips").innerHTML = tags
+function renderSelectGroup(targetId, prefix, options) {
+  $("#" + targetId).innerHTML = [1, 2, 3]
     .map(
-      (tag) =>
-        `<label class="skill-chip"><input type="checkbox" value="${tag}"><span>${tag}</span></label>`,
+      (index) => `
+        <select id="${prefix}${index}" class="select-field small-select">
+          ${optionList(options)}
+        </select>
+      `,
     )
     .join("");
 }
 
+function renderReflectionFields() {
+  const skills = unique(
+    members.map((m) => [...m.strengths, ...m.technical, ...m.growth]),
+  );
+  const experiences = unique(projects.map((p) => p.tags));
+  renderSelectGroup("usedSkillFields", "usedSkill", skills);
+  renderSelectGroup("grownSkillFields", "grownSkill", skills);
+  renderSelectGroup("firstExperienceFields", "firstExperience", experiences);
+}
+
 function openProfile(member) {
   $("#profileContent").innerHTML = `
-    <header class="profile-header" style="--dot:${member.color}">
-      <span class="member-avatar large">${initials(member)}</span>
+    <header class="profile-header profile-hero" ${headerStyle(member)}>
+      ${avatarMarkup(member, "large")}
       <div><p class="eyebrow">${member.role}</p><h2 id="profileName">${member.name}</h2><p>${member.header}</p></div>
     </header>
     ${memberSummary(member)}
@@ -415,8 +458,7 @@ function openProfile(member) {
       .slice(0, 5)
       .map((log) => `<li>${log}</li>`)
       .join("")}</ol></section>
-    <button class="secondary-button wide edit-profile" data-member="${member.id}" type="button">プロフィールを更新</button>
-    <button class="primary-button wide" type="button">一言を送る</button>
+    <button class="primary-button wide edit-profile" data-member="${member.id}" type="button">プロフィールを更新</button>
   `;
   profileSheet.showModal();
   profileSheet
@@ -429,6 +471,8 @@ function openEdit(member) {
   profileSheet.close();
   $("#editHeader").value = member.header;
   $("#editIcon").value = member.icon;
+  $("#editAvatarImage").value = member.avatarImage;
+  $("#editHeaderImage").value = member.headerImage;
   $("#editNext").value = member.next;
   $("#editCapacity").innerHTML = optionList(
     unique(members.map((m) => [m.capacity])),
@@ -481,6 +525,8 @@ $("#editForm").addEventListener("submit", (event) => {
   event.preventDefault();
   editingMember.header = $("#editHeader").value;
   editingMember.icon = $("#editIcon").value || editingMember.icon;
+  editingMember.avatarImage = $("#editAvatarImage").value;
+  editingMember.headerImage = $("#editHeaderImage").value;
   editingMember.capacity = $("#editCapacity").value;
   editingMember.next = $("#editNext").value;
   editingMember.updated = "2026-07-20";
@@ -498,4 +544,4 @@ renderFilters();
 renderAxisSwitch();
 renderMap();
 renderMembers();
-renderSkills();
+renderReflectionFields();

@@ -57,7 +57,7 @@
               <span class="mini-seal">◔ᴥ◔</span>
             </div>
             <p class="eyebrow">Overview</p>
-            <h1 id="homeTitle">ふりかえりを、<br />次のアサインの地図に。</h1>
+            <h1 id="homeTitle">ふりかえりで、<br />アサインを見える化。</h1>
             <p class="lead">8人の経験、直近5案件、伸びたスキルを見渡せます。</p>
           </article>
           <div class="project-strip" id="projectStrip"></div>
@@ -100,14 +100,31 @@
           <form class="reflection-form glass-card" id="reflectionForm">
             <label class="field-label" for="projectSelect">案件</label>
             <select id="projectSelect" class="select-field"></select>
-            <p class="field-label">今回伸びたスキル</p>
-            <div class="chip-group" id="skillChips"></div>
-            <label class="field-label" for="reflectionNote">一言</label>
+            <label class="field-label" for="usedSkill1">今回使ったスキル</label>
+            <div class="select-row" id="usedSkillFields"></div>
+            <label class="field-label" for="grownSkill1"
+              >今回伸びたスキル</label
+            >
+            <div class="select-row" id="grownSkillFields"></div>
+            <label class="field-label" for="firstExperience1"
+              >初めて経験したこと</label
+            >
+            <div class="select-row" id="firstExperienceFields"></div>
+            <label class="field-label" for="difficultNote"
+              >難しかったこと</label
+            >
+            <textarea
+              id="difficultNote"
+              class="text-field"
+              rows="3"
+              placeholder="例: 要件の優先順位を整理するのが難しかった"
+            ></textarea>
+            <label class="field-label" for="reflectionNote">ひとことメモ</label>
             <textarea
               id="reflectionNote"
               class="text-field"
-              rows="4"
-              placeholder="例: 次は要件整理から関わってみたい"
+              rows="3"
+              placeholder="例: 次は企画段階から関わってみたい"
             ></textarea>
             <button class="primary-button wide" type="submit">
               ふりかえりを保存
@@ -192,8 +209,24 @@
         <h2 id="editTitle">プロフィール更新</h2>
         <label class="field-label" for="editHeader">ヘッダー文言</label>
         <input id="editHeader" class="select-field" type="text" />
-        <label class="field-label" for="editIcon">アイコン</label>
+        <label class="field-label" for="editIcon">アイコン文字</label>
         <input id="editIcon" class="select-field" type="text" maxlength="2" />
+        <label class="field-label" for="editAvatarImage"
+          >丸アイコン画像URL</label
+        >
+        <input
+          id="editAvatarImage"
+          class="select-field"
+          type="url"
+          placeholder="https://example.com/avatar.png"
+        />
+        <label class="field-label" for="editHeaderImage">ヘッダー画像URL</label>
+        <input
+          id="editHeaderImage"
+          class="select-field"
+          type="url"
+          placeholder="https://example.com/header.png"
+        />
         <label class="field-label" for="editCapacity">現在の余力</label>
         <select id="editCapacity" class="select-field"></select>
         <label class="field-label" for="editNext">次にやりたいこと</label>
