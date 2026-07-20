@@ -61,10 +61,10 @@
             <p class="lead">8人の経験、直近5案件、伸びたスキルを見渡せます。</p>
           </article>
           <div class="project-strip" id="projectStrip"></div>
-          <section class="glass-card insight-card">
-            <p class="eyebrow">Today</p>
-            <h3>面談前に見ること</h3>
-            <ul id="insightList"></ul>
+          <section class="glass-card team-state-card">
+            <p class="eyebrow">Team condition</p>
+            <h3>チームの状態</h3>
+            <div class="state-grid" id="teamState"></div>
           </section>
         </section>
 
@@ -125,6 +125,24 @@
             <p class="eyebrow">Members</p>
             <h2 id="membersTitle">メンバー</h2>
           </div>
+          <form
+            class="filter-panel glass-card"
+            id="filterForm"
+            aria-label="メンバーの絞り込み"
+          >
+            <label class="field-label" for="filterStrength">得意分野</label>
+            <select id="filterStrength" class="select-field"></select>
+            <label class="field-label" for="filterInterest">興味分野</label>
+            <select id="filterInterest" class="select-field"></select>
+            <label class="field-label" for="filterCapacity">現在の余力</label>
+            <select id="filterCapacity" class="select-field"></select>
+            <label class="field-label" for="filterGrowth"
+              >今後伸ばしたい分野</label
+            >
+            <select id="filterGrowth" class="select-field"></select>
+            <label class="field-label" for="filterUpdated">最終更新日</label>
+            <select id="filterUpdated" class="select-field"></select>
+          </form>
           <div class="member-list" id="memberList"></div>
         </section>
 
@@ -159,6 +177,30 @@
         ×
       </button>
       <div id="profileContent"></div>
+    </dialog>
+
+    <dialog class="profile-sheet" id="editSheet" aria-labelledby="editTitle">
+      <button
+        class="close-button"
+        id="closeEdit"
+        type="button"
+        aria-label="閉じる"
+      >
+        ×
+      </button>
+      <form id="editForm" class="edit-form">
+        <h2 id="editTitle">プロフィール更新</h2>
+        <label class="field-label" for="editHeader">ヘッダー文言</label>
+        <input id="editHeader" class="select-field" type="text" />
+        <label class="field-label" for="editIcon">アイコン</label>
+        <input id="editIcon" class="select-field" type="text" maxlength="2" />
+        <label class="field-label" for="editCapacity">現在の余力</label>
+        <select id="editCapacity" class="select-field"></select>
+        <label class="field-label" for="editNext">次にやりたいこと</label>
+        <textarea id="editNext" class="text-field" rows="3"></textarea>
+        <button class="primary-button wide" type="submit">更新する</button>
+        <p class="form-message" id="editMessage" role="status"></p>
+      </form>
     </dialog>
     <script src="app.js"></script>
   </body>
